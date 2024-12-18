@@ -1,10 +1,17 @@
 import streamlit as st
-
 from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 import time
 from bs4 import BeautifulSoup
+import json
+from selenium.webdriver.common.by import By
+import requests
+
+capabilities = DesiredCapabilities.CHROME
+capabilities["goog:loggingPrefs"] = {"performance": "ALL"}  # chromedriver 75+
+
 
 # ------------- Settings for Pages -----------
 st.set_page_config(layout="wide")
@@ -19,14 +26,15 @@ def get_website_content(url):
         options.add_argument('--disable-gpu')
         options.add_argument('--window-size=1920,1200')
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),
-                                  options=options)
+                                  options=options,desired_capabilities=capabilities)
         st.write(f"DEBUG:DRIVER:{driver}")
         driver.get(url)
         time.sleep(5)
         html_doc = driver.page_source
+        logs = driver.get_log("performance")
         driver.quit()
         soup = BeautifulSoup(html_doc, "html.parser")
-        return soup.get_text()
+        return soup.get_text(),logs
     except Exception as e:
         st.write(f"DEBUG:INIT_DRIVER:ERROR:{e}")
     finally:
