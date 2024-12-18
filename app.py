@@ -59,8 +59,9 @@ def site_extraction_page():
     if clicked:
         with st.container(border=True):
             with st.spinner("Loading page website..."):
-                content = get_website_content(url)
+                content,logs = get_website_content(url)
                 st.write(content)
+                st.write(logs)
 
 
 if __name__ == "__main__":
