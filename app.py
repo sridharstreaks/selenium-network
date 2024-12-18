@@ -39,12 +39,12 @@ def get_website_content(url):
 # ---------------- Page & UI/UX Components ------------------------
 def main_sidebar():
     # 1.Vertical Menu
-    st.header("Running Selenium on Streamlit Cloud")
+    st.header("Running Selenium Network on Streamlit Cloud")
     site_extraction_page()
 
 
 def site_extraction_page():
-    SAMPLE_URL = "https://spectrum.ieee.org/3d-printed-rocket"
+    SAMPLE_URL = "https://google.com"
     url = st.text_input(label="URL", placeholder="https://example.com", value=SAMPLE_URL)
 
     clicked = st.button("Load Page Content",type="primary")
