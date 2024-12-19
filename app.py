@@ -52,14 +52,9 @@ def process_browser_logs_for_network_events(logs):
             #st.write(type(log))
             return log
 
-def extract_all_urls(generator):
-    urls = []
-    for log in generator:  # Iterate through the generator
-        url = log.get('params', {}).get('response', {}).get('url', None)
-        if url:
-            urls.append(url)
-    return urls
-
+def extract_url(log):
+    # Safely navigate the nested dictionary to get the 'url' value
+    return log.get('params', {}).get('response', {}).get('url', None)
 
 
 # ---------------- Page & UI/UX Components ------------------------
@@ -81,9 +76,8 @@ def site_extraction_page():
                 log = process_browser_logs_for_network_events(logs)
                 st.write(log)
                 st.markdown(type(log))
-                #lists = list(log)
-                #for each in lists:
-                #    st.markdown(log.get('params', {}).get('response', {}).get('url', None))
+                streamlink=extract_url(log)
+                st.markdown(streamlink)
 
 if __name__ == "__main__":
     main_sidebar()
