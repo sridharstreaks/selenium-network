@@ -32,8 +32,8 @@ def get_website_content(url):
         time.sleep(5)
         # Simulate clicking the download button/link (if required)
         html_doc = driver.page_source
-        #download_button = driver.find_element(By.XPATH, "//a[@class='dwnLink']")  # Adjust XPath to match your case
-        #download_button.click()
+        download_button = driver.find_element(By.XPATH, "//a[@class='dwnLink']")  # Adjust XPath to match your case
+        download_button.click()
         logs = driver.get_log("performance")
         driver.quit()
         #soup = BeautifulSoup(html_doc, "html.parser")
@@ -48,7 +48,7 @@ def get_website_content(url):
 def process_browser_logs_for_network_events(logs):
     for entry in logs:
         log = json.loads(entry["message"])["message"]
-        if log.get('method') == 'Network.responseReceived':
+        if log.get('method') == 'Network.responseReceived'  and log.get('params', {}).get('response', {}).get('mimeType') == 'video/mp4':
             #st.write(type(log))
             yield log
 
