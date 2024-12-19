@@ -81,8 +81,9 @@ def site_extraction_page():
                 log = process_browser_logs_for_network_events(logs)
                 st.write(log)
                 st.markdown(type(log))
-                streamlink = extract_all_urls(log)
-                st.write(streamlink)
+                lists = list(log)
+                for each in lists:
+                    st.markdown(log.get('params', {}).get('response', {}).get('url', None))
 
 if __name__ == "__main__":
     main_sidebar()
