@@ -86,7 +86,8 @@ def site_extraction_page():
                 logs = get_website_content(url)
                 logs = process_browser_logs_for_network_events(logs)
                 st.write(logs)
-                #extract_key_value(logs, "url")
+                streamlink = extract_key_value(logs, "url")
+                st.write(streamlink)
 
 if __name__ == "__main__":
     main_sidebar()
