@@ -46,7 +46,7 @@ def process_browser_logs_for_network_events(logs):
     for entry in logs:
         log = json.loads(entry["message"])["message"]
         if (
-            "Document" in log["type"]
+            "Network.responseReceived" in log["method"]
         ):
             yield log
 
