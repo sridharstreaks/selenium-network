@@ -79,9 +79,9 @@ def site_extraction_page():
                 streamlink=extract_url(log)
                 st.markdown(streamlink)
 
-st.video(streamlink)
-time.sleep(5)
-st.link_button("Save to Device",streamlink)
+        st.video(streamlink)
+        time.sleep(5)
+        st.link_button("Save to Device",streamlink)
 
 if __name__ == "__main__":
     main_sidebar()
