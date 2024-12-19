@@ -48,8 +48,8 @@ def get_website_content(url):
 def process_browser_logs_for_network_events(logs):
     for entry in logs:
         log = json.loads(entry["message"])["message"]
-        if "Network.responseReceived" in log["method"]:
-            st.write(type(log))
+        if "utf-8" in log["params"]["response"]["charset"]:
+            #st.write(type(log))
             yield log
 
 #getting the URL
