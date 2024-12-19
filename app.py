@@ -33,14 +33,36 @@ def get_website_content(url):
         html_doc = driver.page_source
         logs = driver.get_log("performance")
         driver.quit()
-        soup = BeautifulSoup(html_doc, "html.parser")
-        return soup.get_text(),logs
+        #soup = BeautifulSoup(html_doc, "html.parser")
+        return logs
     except Exception as e:
         st.write(f"DEBUG:INIT_DRIVER:ERROR:{e}")
     finally:
         if driver is not None: driver.quit()
     return None
 
+#extracting only required logs
+def process_browser_logs_for_network_events(logs):
+    for entry in logs:
+        log = json.loads(entry["message"])["message"]
+        if (
+            "Network.responseReceived" in log["method"]
+        ):
+            yield log
+
+#getting the URL
+def extract_key_value(data, target_key):
+    result = []
+    if isinstance(data, dict):
+        for key, value in data.items():
+            if key == target_key:
+                result.append(value)
+            elif isinstance(value, (dict, list)):
+                result.extend(extract_key_value(value, target_key))
+    elif isinstance(data, list):
+        for item in data:
+            result.extend(extract_key_value(item, target_key))
+    return result
 
 
 
@@ -59,10 +81,10 @@ def site_extraction_page():
     if clicked:
         with st.container(border=True):
             with st.spinner("Loading page website..."):
-                content,logs = get_website_content(url)
-                st.write(content)
+                logs = get_website_content(url)
+                logs = process_browser_logs_for_network_events(logs)
                 st.write(logs)
-
+                extract_key_value(logs, "url")
 
 if __name__ == "__main__":
     main_sidebar()
