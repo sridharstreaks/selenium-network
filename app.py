@@ -48,7 +48,7 @@ def get_website_content(url):
 def process_browser_logs_for_network_events(logs):
     for entry in logs:
         log = json.loads(entry["message"])["message"]
-        if "utf-8" in log["params"]["response"]["charset"]:
+        if log.get('method') == 'Network.responseReceived' and log.get('params', {}).get('response', {}).get('mimeType') == 'video/mp4':
             #st.write(type(log))
             yield log
 
