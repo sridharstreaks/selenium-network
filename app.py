@@ -48,7 +48,7 @@ def get_website_content(url):
 def process_browser_logs_for_network_events(logs):
     for entry in logs:
         log = json.loads(entry["message"])["message"]
-        if "Network.responseReceived" in log["method"] and 'video/mp4' in log['params']['response']['mimeType']:
+        if "Network.responseReceived" in log["method"]:
             yield log
 
 #getting the URL
@@ -85,7 +85,7 @@ def site_extraction_page():
                 logs = get_website_content(url)
                 logs = process_browser_logs_for_network_events(logs)
                 st.write(logs)
-                extract_key_value(logs, "url")
+                #extract_key_value(logs, "url")
 
 if __name__ == "__main__":
     main_sidebar()
