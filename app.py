@@ -53,18 +53,9 @@ def process_browser_logs_for_network_events(logs):
             yield log
 
 #getting the URL
-def extract_key_value(data, target_key):
-    result = []
-    if isinstance(data, dict):
-        for key, value in data.items():
-            if key == target_key:
-                result.append(value)
-            elif isinstance(value, (dict, list)):
-                result.extend(extract_key_value(value, target_key))
-    elif isinstance(data, list):
-        for item in data:
-            result.extend(extract_key_value(item, target_key))
-    return result
+def extract_url(log):
+    # Safely navigate the nested dictionary to get the 'url' value
+    return log.get('params', {}).get('response', {}).get('url', None)
 
 
 
@@ -84,9 +75,9 @@ def site_extraction_page():
         with st.container(border=True):
             with st.spinner("Loading page website..."):
                 logs = get_website_content(url)
-                logs = process_browser_logs_for_network_events(logs)
-                st.write(logs)
-                streamlink = extract_key_value(logs, "url")
+                log = process_browser_logs_for_network_events(logs)
+                st.write(log)
+                streamlink = extract_url(log)
                 st.write(streamlink)
 
 if __name__ == "__main__":
