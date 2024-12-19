@@ -32,8 +32,8 @@ def get_website_content(url):
         time.sleep(5)
         # Simulate clicking the download button/link (if required)
         html_doc = driver.page_source
-        download_button = driver.find_element(By.XPATH, "//a[@class='dwnLink']")  # Adjust XPath to match your case
-        download_button.click()
+        #download_button = driver.find_element(By.XPATH, "//a[@class='dwnLink']")  # Adjust XPath to match your case
+        #download_button.click()
         logs = driver.get_log("performance")
         driver.quit()
         #soup = BeautifulSoup(html_doc, "html.parser")
