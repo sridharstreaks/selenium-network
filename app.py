@@ -50,7 +50,7 @@ def process_browser_logs_for_network_events(logs):
         log = json.loads(entry["message"])["message"]
         if log.get('method') == 'Network.responseReceived'  and log.get('params', {}).get('response', {}).get('mimeType') == 'video/mp4':
             #st.write(type(log))
-            yield log
+            return log
 
 def extract_all_urls(generator):
     urls = []
@@ -81,9 +81,9 @@ def site_extraction_page():
                 log = process_browser_logs_for_network_events(logs)
                 st.write(log)
                 st.markdown(type(log))
-                lists = list(log)
-                for each in lists:
-                    st.markdown(log.get('params', {}).get('response', {}).get('url', None))
+                #lists = list(log)
+                #for each in lists:
+                #    st.markdown(log.get('params', {}).get('response', {}).get('url', None))
 
 if __name__ == "__main__":
     main_sidebar()
