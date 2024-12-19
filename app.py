@@ -52,10 +52,11 @@ def process_browser_logs_for_network_events(logs):
             #st.write(type(log))
             yield log
 
-#getting the URL
-def extract_url(log):
-    # Safely navigate the nested dictionary to get the 'url' value
-    return log.get('params', {}).get('response', {}).get('url', None)
+def extract_url_from_generator(generator):
+    for log in generator:  # Iterate through the generator
+        # Safely access the 'url' key in the nested dictionary
+        return log.get('params', {}).get('response', {}).get('url', None)
+    return None  # Return None if the generator is empty
 
 
 
@@ -77,9 +78,9 @@ def site_extraction_page():
                 logs = get_website_content(url)
                 log = process_browser_logs_for_network_events(logs)
                 st.write(log)
-        st.markdown(type(log))
-        streamlink = extract_url(log)
-        st.write(streamlink)
+                st.markdown(type(log))
+                streamlink = extract_url_from_generator(log)
+                st.write(streamlink)
 
 if __name__ == "__main__":
     main_sidebar()
