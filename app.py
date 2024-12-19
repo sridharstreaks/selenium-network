@@ -82,9 +82,9 @@ def site_extraction_page():
         with st.container(border=True):
             with st.spinner("Loading page website..."):
                 logs = get_website_content(url)
-                logs = process_browser_logs_for_network_events(logs)
-                st.write(logs)
-                extract_key_value(logs, "url")
+                #logs = process_browser_logs_for_network_events(logs)
+                st.write(type(logs))
+                #extract_key_value(logs, "url")
 
 if __name__ == "__main__":
     main_sidebar()
