@@ -45,9 +45,7 @@ def get_website_content(url):
 def process_browser_logs_for_network_events(logs):
     for entry in logs:
         log = json.loads(entry["message"])["message"]
-        if (
-            "Network.responseReceived" in log["method"]
-        ):
+        if "Network.responseReceived" in log["method"] and 'video/mp4' log['params']['response']['mimeType']:
             yield log
 
 #getting the URL
@@ -82,9 +80,9 @@ def site_extraction_page():
         with st.container(border=True):
             with st.spinner("Loading page website..."):
                 logs = get_website_content(url)
-                #logs = process_browser_logs_for_network_events(logs)
+                logs = process_browser_logs_for_network_events(logs)
                 st.write(type(logs))
-                #extract_key_value(logs, "url")
+                extract_key_value(logs, "url")
 
 if __name__ == "__main__":
     main_sidebar()
